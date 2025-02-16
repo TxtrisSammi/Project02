@@ -49,13 +49,12 @@ public class LoginScreen extends EncryptionMethods {
                 nameString = decrypt(name, secret);
 
                 String passwordHash = hashPassword(password, salt);
-                System.out.println(passwordHash);
                 String storedPassword = read.next();
-                System.out.println("\n" + storedPassword);
                 if (passwordHash.equals(storedPassword)) {
                     System.out.println("login Successful");
                     loginCase = "login Successful";
                     switchToStart(event);
+                    break;
                 } else {
                     System.out.println("Incorrect Password");
                     loginCase = "Incorrect Password";
@@ -63,9 +62,12 @@ public class LoginScreen extends EncryptionMethods {
                 }
             }
         }
-        System.out.println("Incorrect Email");
-        loginCase = "Incorrect Email";
-        switchToStart(event);
+        if (!loginCase.equals("login Successful")) {
+            System.out.println("Incorrect Email");
+            loginCase = "Incorrect Email";
+            switchToStart(event);
+        }
+
     }
 }
 

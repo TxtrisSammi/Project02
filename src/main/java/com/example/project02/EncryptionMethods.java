@@ -82,10 +82,6 @@ public abstract class EncryptionMethods {
         return generatedPassword;
     }
 
-    public javafx.event.ActionEvent dummyActionEvent() {
-        return new javafx.event.ActionEvent();
-    }
-
     public void switchToStart(javafx.event.ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("start-screen.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
