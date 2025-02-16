@@ -21,12 +21,6 @@ public class StartScreen extends EncryptionMethods {
     @FXML
     public Label loginStatusLabel;
 
-
-    public void displayName(String nameString) {
-        nameLabel.setText("Hello: " + nameString);
-        loginStatusLabel.setText("Login Successful!");
-    }
-
     public void switchToLogin(javafx.event.ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login-screen.fxml"));
         stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();

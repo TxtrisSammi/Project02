@@ -17,6 +17,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 public class SignupScreen extends EncryptionMethods {
 
@@ -32,42 +34,52 @@ public class SignupScreen extends EncryptionMethods {
     @FXML
     public PasswordField passwordTextField;
 
-    public void switchToStart(javafx.event.ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("start-screen.fxml"));
-        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Welcome to The Application!");
-        stage.setScene(scene);
-        stage.show();
-    }
 
     public void onSignupButtonPressed(javafx.event.ActionEvent event) throws IOException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
-        FileWriter writer = new FileWriter("src/main/resources/UserData.txt");
-        System.out.println("Signup");
+        FileWriter writer = new FileWriter("src/main/resources/UserData.txt", true);
+        File file = new File("src/main/resources/UserData.txt");
+        Scanner read = new Scanner(file);
+
         String emailInput = emailTextField.getText();
         String passwordInput = passwordTextField.getText();
         String nameInput = nameTextField.getText();
 
-        String secret = ")@#&HDFUSDYF()";
-        String encrypted = encrypt(emailInput, secret);
-
-
-
-        writer.write(encrypted);
-        writer.write(",");
-
-
+        String encryptedEmail = encrypt(emailInput, secret);
+        String encryptedName = encrypt(nameInput, secret);
         String salt = getSalt();
-        writer.write(salt);
-        writer.write(",");
+        String line;
 
-        String passwordHashed = hashPassword(passwordInput, salt);
-        writer.write(passwordHashed);
-        writer.write(",");
+            if (read.hasNext()) {
+                line = read.nextLine();
+            } else {
+                line = "";
+            }
+
+        if (line.contains(encryptedEmail)) {
+            System.out.println("Email Already In Use");
+            loginCase = "Email Already In Use";
+            switchToStart(event);
+        } else {
+            writer.write(encryptedEmail);
+            writer.write(",");
+
+            writer.write(salt);
+            writer.write(",");
+
+            writer.write(encryptedName);
+            writer.write(",");
+
+            String passwordHashed = hashPassword(passwordInput, salt);
+            writer.write(passwordHashed);
+            writer.write(",");
+
+            System.out.println("Signup Successful");
+            loginCase = "Signup Successful";
+            switchToStart(event);
+        }
 
 
-        writer.write(nameInput);
-        writer.write("\n");
+
 
         writer.flush();
         writer.close();

@@ -1,5 +1,11 @@
 package com.example.project02;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
@@ -17,10 +23,10 @@ import javax.crypto.spec.SecretKeySpec;
 public abstract class EncryptionMethods {
     public static SecretKeySpec secretkey;
     public static byte[] key;
-
+    String secret = ")@#&HDFUSDYF()";
 
     public String nameString = "";
-    public boolean loginStatus = false;
+    public String loginCase = "";
 
     public static void setKey(String myKey) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         MessageDigest sha = null;
@@ -50,7 +56,6 @@ public abstract class EncryptionMethods {
 
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         cipher.init(Cipher.DECRYPT_MODE, secretkey);
-
         byte [] finalByteString = Base64.getDecoder().decode(strToDecrypt);
         return new String(cipher.doFinal(finalByteString));
     }
@@ -81,5 +86,20 @@ public abstract class EncryptionMethods {
         return new javafx.event.ActionEvent();
     }
 
+    public void switchToStart(javafx.event.ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("start-screen.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Welcome to The Application!");
+        stage.setScene(scene);
+        stage.show();
+        StartScreen startScreenController = fxmlLoader.getController();
+        if (loginCase.equals("login Successful")) {
+            startScreenController.loginStatusLabel.setText(loginCase);
+            startScreenController.nameLabel.setText("Hello: " + nameString);
+        } else {
+            startScreenController.loginStatusLabel.setText(loginCase);
+        }
+    }
 }
 
