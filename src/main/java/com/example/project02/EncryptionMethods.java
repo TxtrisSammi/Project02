@@ -21,13 +21,12 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
 public abstract class EncryptionMethods {
+    //Initialize variables
     public static SecretKeySpec secretkey;
     public static byte[] key;
     String secret = ")@#&HDFUSDYF()";
 
-    public String nameString = "";
-    public String loginCase = "";
-
+    //Every method except switchToStart comes from Maxwell's security presentation
     public static void setKey(String myKey) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         MessageDigest sha = null;
         key = myKey.getBytes("UTF-8");
@@ -36,7 +35,6 @@ public abstract class EncryptionMethods {
         key = Arrays.copyOf(key, 16);
         secretkey = new SecretKeySpec(key, "AES");
     }
-
 
     public static String encrypt(String strToEncrypt, String secret) throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
         setKey(secret);
@@ -82,6 +80,15 @@ public abstract class EncryptionMethods {
         return generatedPassword;
     }
 
+    /*
+    This method is here because all Scene controllers call EncryptionMethods and I wanted to use this method throughout
+    without creating a new class. This method makes the program switch to the Start-Screen Scene.
+
+    Initialize variables
+    */
+    public String nameString = "";
+    public String loginCase = "";
+
     public void switchToStart(javafx.event.ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("start-screen.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -90,8 +97,11 @@ public abstract class EncryptionMethods {
         stage.setScene(scene);
         stage.show();
         StartScreen startScreenController = fxmlLoader.getController();
-        if (loginCase.equals("login Successful")) {
+
+        //Regardless of the loginCase, set loginStatusLabel to loginCase
+        if (loginCase.equals("Login Successful")) {
             startScreenController.loginStatusLabel.setText(loginCase);
+            //If the loginCase is "Login Successful" set the nameLabel to "Hello: " + nameString
             startScreenController.nameLabel.setText("Hello: " + nameString);
         } else {
             startScreenController.loginStatusLabel.setText(loginCase);

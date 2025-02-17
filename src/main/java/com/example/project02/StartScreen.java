@@ -21,6 +21,7 @@ public class StartScreen extends EncryptionMethods {
     @FXML
     public Label loginStatusLabel;
 
+    //Run when "Login" button is pressed, swaps to Login-Screen scene
     public void switchToLogin(javafx.event.ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login-screen.fxml"));
         stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -30,6 +31,7 @@ public class StartScreen extends EncryptionMethods {
         stage.show();
     }
 
+    //Run when "Signup" button is pressed, swaps to Signup-Screen scene
     public void switchToSignUp(javafx.event.ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("signup-screen.fxml"));
         stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
