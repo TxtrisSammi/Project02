@@ -55,9 +55,11 @@ public class SignupScreen extends EncryptionMethods {
         String salt = getSalt(); //Get salt (stored as a Base64 encoded String)
         String line = " "; //Initialize line variable
 
-        /*If there is text in UserData.txt set line equal to that line
+        /*
+        If there is text in UserData.txt set line equal to that line
         Since all the information is stored in one line this is essentially setting
-        line equal to all the user data. */
+        line equal to all the user data. Used to check
+        */
         if (read.hasNext()) {
             line = read.nextLine();
         }

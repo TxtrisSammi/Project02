@@ -3,6 +3,7 @@ package com.example.project02;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -99,12 +100,17 @@ public abstract class EncryptionMethods {
         StartScreen startScreenController = fxmlLoader.getController();
 
         //Regardless of the loginCase, set loginStatusLabel to loginCase
-        if (loginCase.equals("Login Successful")) {
-            startScreenController.loginStatusLabel.setText(loginCase);
-            //If the loginCase is "Login Successful" set the nameLabel to "Hello: " + nameString
-            startScreenController.nameLabel.setText("Hello: " + nameString);
-        } else {
-            startScreenController.loginStatusLabel.setText(loginCase);
+        switch (loginCase) {
+            case "Login Successful":
+                startScreenController.loginStatusLabel.setText(loginCase);
+                //If the loginCase is "Login Successful" set the nameLabel to "Hello: " + nameString
+                startScreenController.nameLabel.setText("Hello: " + nameString);
+                break;
+            case "Email Already In Use":
+                startScreenController.loginStatusLabel.setText(loginCase);
+            default:
+                startScreenController.loginStatusLabel.setText(loginCase);
+
         }
     }
 }
